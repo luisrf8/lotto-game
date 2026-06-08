@@ -1,7 +1,27 @@
+import { API_BASE_URL, GAME_API_ENDPOINTS } from '@/config/apiConfig'
+
 export const GAME_IDS = {
   LOTTO_ACTIVO: 'LOTTO_ACTIVO',
   LOTTO_INTER: 'LOTTO_INTER',
   MONJE_MILLONARIO: 'MONJE_MILLONARIO',
+}
+
+const buildApiPath = (pathValue, fallbackPath) => {
+  const rawPath = pathValue || fallbackPath
+  const apiBase = API_BASE_URL
+
+  if (/^https?:\/\//.test(rawPath)) {
+    return rawPath
+  }
+
+  if (!apiBase) {
+    return rawPath
+  }
+
+  const normalizedBase = apiBase.endsWith('/') ? apiBase.slice(0, -1) : apiBase
+  const normalizedPath = rawPath.startsWith('/') ? rawPath : `/${rawPath}`
+
+  return `${normalizedBase}${normalizedPath}`
 }
 
 export const mockGames = [
@@ -10,21 +30,30 @@ export const mockGames = [
     name: 'Lotto Activo',
     accent: 'neon',
     streamLabel: 'Canal Principal',
-    apiPath: '/mock-api/games/lotto-activo.json',
+    apiPath: buildApiPath(
+      GAME_API_ENDPOINTS.LOTTO_ACTIVO,
+      '/mock-api/games/lotto-activo.json',
+    ),
   },
   {
     id: GAME_IDS.LOTTO_INTER,
     name: 'Lotto Inter',
     accent: 'gold',
     streamLabel: 'Canal Inter',
-    apiPath: '/mock-api/games/lotto-inter.json',
+    apiPath: buildApiPath(
+      GAME_API_ENDPOINTS.LOTTO_INTER,
+      '/mock-api/games/lotto-inter.json',
+    ),
   },
   {
     id: GAME_IDS.MONJE_MILLONARIO,
     name: 'Monje Millonario',
     accent: 'neon',
     streamLabel: 'Canal Monje',
-    apiPath: '/mock-api/games/monje-millonario.json',
+    apiPath: buildApiPath(
+      GAME_API_ENDPOINTS.MONJE_MILLONARIO,
+      '/mock-api/games/monje-millonario.json',
+    ),
   },
 ]
 
