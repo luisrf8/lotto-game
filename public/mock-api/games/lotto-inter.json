@@ -1,0 +1,24 @@
+{
+  "id": "LOTTO_INTER",
+  "name": "Lotto Inter",
+  "streamLabel": "Canal Inter",
+  "animalitos": [
+    { "number": 12, "name": "Lobo", "icon": "🐺" },
+    { "number": 13, "name": "Zorro", "icon": "🦊" },
+    { "number": 14, "name": "Oso", "icon": "🐻" },
+    { "number": 15, "name": "Koala", "icon": "🐨" },
+    { "number": 16, "name": "Panda", "icon": "🐼" },
+    { "number": 17, "name": "Mapache", "icon": "🦝" },
+    { "number": 18, "name": "Cebra", "icon": "🦓" },
+    { "number": 19, "name": "Jirafa", "icon": "🦒" },
+    { "number": 20, "name": "Cocodrilo", "icon": "🐊" },
+    { "number": 21, "name": "Hipopotamo", "icon": "🦛" },
+    { "number": 22, "name": "Rinoceronte", "icon": "🦏" },
+    { "number": 23, "name": "Elefante", "icon": "🐘" }
+  ],
+  "lastResults": [
+    { "number": 13, "name": "Zorro", "icon": "🦊" },
+    { "number": 18, "name": "Cebra", "icon": "🦓" },
+    { "number": 22, "name": "Rinoceronte", "icon": "🦏" }
+  ]
+}

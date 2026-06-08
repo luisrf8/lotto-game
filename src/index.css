@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html,
+  body,
+  #root {
+    @apply m-0 min-h-screen;
+  }
+
+  body {
+    @apply bg-lotto-bg font-body text-lotto-text antialiased;
+  }
+}

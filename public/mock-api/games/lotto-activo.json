@@ -1,0 +1,24 @@
+{
+  "id": "LOTTO_ACTIVO",
+  "name": "Lotto Activo",
+  "streamLabel": "Canal Principal",
+  "animalitos": [
+    { "number": 0, "name": "Delfin", "icon": "🐬" },
+    { "number": 1, "name": "Carnero", "icon": "🐏" },
+    { "number": 2, "name": "Toro", "icon": "🐂" },
+    { "number": 3, "name": "Ciempies", "icon": "🐛" },
+    { "number": 4, "name": "Alacran", "icon": "🦂" },
+    { "number": 5, "name": "Leon", "icon": "🦁" },
+    { "number": 6, "name": "Rana", "icon": "🐸" },
+    { "number": 7, "name": "Perico", "icon": "🦜" },
+    { "number": 8, "name": "Raton", "icon": "🐭" },
+    { "number": 9, "name": "Aguila", "icon": "🦅" },
+    { "number": 10, "name": "Tigre", "icon": "🐯" },
+    { "number": 11, "name": "Gato", "icon": "🐱" }
+  ],
+  "lastResults": [
+    { "number": 2, "name": "Toro", "icon": "🐂" },
+    { "number": 7, "name": "Perico", "icon": "🦜" },
+    { "number": 10, "name": "Tigre", "icon": "🐯" }
+  ]
+}

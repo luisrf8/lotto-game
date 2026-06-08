@@ -1,0 +1,24 @@
+{
+  "id": "MONJE_MILLONARIO",
+  "name": "Monje Millonario",
+  "streamLabel": "Canal Monje",
+  "animalitos": [
+    { "number": 24, "name": "Pulpo", "icon": "🐙" },
+    { "number": 25, "name": "Calamar", "icon": "🦑" },
+    { "number": 26, "name": "Langosta", "icon": "🦞" },
+    { "number": 27, "name": "Cangrejo", "icon": "🦀" },
+    { "number": 28, "name": "Pez Globo", "icon": "🐡" },
+    { "number": 29, "name": "Pez Tropical", "icon": "🐠" },
+    { "number": 30, "name": "Ballena", "icon": "🐋" },
+    { "number": 31, "name": "Foca", "icon": "🦭" },
+    { "number": 32, "name": "Pinguino", "icon": "🐧" },
+    { "number": 33, "name": "Cisne", "icon": "🦢" },
+    { "number": 34, "name": "Pavo Real", "icon": "🦚" },
+    { "number": 35, "name": "Flamenco", "icon": "🦩" }
+  ],
+  "lastResults": [
+    { "number": 24, "name": "Pulpo", "icon": "🐙" },
+    { "number": 31, "name": "Foca", "icon": "🦭" },
+    { "number": 35, "name": "Flamenco", "icon": "🦩" }
+  ]
+}
