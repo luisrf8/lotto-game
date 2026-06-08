@@ -87,7 +87,7 @@ export const WinnerRouletteOverlay = ({ event, game, onClose }) => {
           <p className="mb-3 text-center text-sm text-lotto-muted">
             {isRunning
               ? 'Ruleta girando... esperando ganador confirmado'
-              : 'Ganador confirmado - animacion pausada en resultado final'}
+              : 'Ganador confirmado'}
           </p>
 
           <div className="relative mx-auto flex max-w-md items-center justify-center gap-4 overflow-hidden rounded-xl border border-lotto-neon/30 bg-[#0a162a] py-6">

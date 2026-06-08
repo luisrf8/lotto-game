@@ -15,6 +15,7 @@ function App() {
   const { resultsByGame, syncMeta, winnerEvent } = useGameSync(games, gameDataById)
   const [betGameId, setBetGameId] = useState(games[0].id)
   const [rouletteEvent, setRouletteEvent] = useState(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const gameForBets = useMemo(() => {
     if (currentGame === SIMULTANEOUS) {
@@ -44,7 +45,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-halo bg-lotto-bg text-lotto-text">
-      <Sidebar games={games} />
+      <button
+        type="button"
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed left-3 top-3 z-30 rounded-md border border-lotto-border bg-[#09111e]/90 px-3 py-2 text-xs text-lotto-text backdrop-blur lg:hidden"
+      >
+        Menu Juegos
+      </button>
+
+      <Sidebar
+        games={games}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       <div className="ml-0 min-h-screen lg:ml-64">
         <TopResultsBar
