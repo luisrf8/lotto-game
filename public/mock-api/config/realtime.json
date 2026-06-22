@@ -1,0 +1,21 @@
+{
+  "winnerIntervalMs": 90000,
+  "adThresholdMs": 60000,
+  "ads": [
+    {
+      "id": "promo-1",
+      "title": "Bono de Bienvenida",
+      "image": "/mock-api/ads/ad-bonus.svg"
+    },
+    {
+      "id": "promo-2",
+      "title": "Multiplica tu premio",
+      "image": "/mock-api/ads/ad-multiplier.svg"
+    },
+    {
+      "id": "promo-3",
+      "title": "Sorteo especial nocturno",
+      "image": "/mock-api/ads/ad-night.svg"
+    }
+  ]
+}

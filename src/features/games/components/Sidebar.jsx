@@ -12,14 +12,14 @@ export const Sidebar = ({ games, isOpen, onClose }) => {
   return (
     <>
       <div
-        className={`fixed inset-0 z-30 bg-[#020713]/70 backdrop-blur-sm transition-opacity lg:hidden ${
+        className={`fixed inset-0 z-30 bg-black/30 backdrop-blur-sm transition-opacity lg:hidden ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={onClose}
       />
 
       <aside
-        className={`fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-lotto-border bg-[#09111e] px-4 py-6 transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-[#d8dde5] bg-[#f1f3f6] px-4 py-6 transition-transform duration-300 lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -38,14 +38,14 @@ export const Sidebar = ({ games, isOpen, onClose }) => {
           </button>
         </div>
 
-        <nav className="space-y-2">
+        <nav className="space-y-2 h-screen rounded-xl border border-[#d6dbe4] bg-white p-2 shadow-sm">
           <button
             type="button"
             onClick={() => handleSelect(SIMULTANEOUS)}
             className={`w-full rounded-lg border px-3 py-2 text-left transition ${
               currentGame === SIMULTANEOUS
                 ? 'border-lotto-neon bg-lotto-neon/10 text-lotto-text'
-                : 'border-lotto-border text-lotto-muted hover:border-lotto-gold/60 hover:text-lotto-text'
+                : 'border-[#d2d8e1] bg-[#f7f8fb] text-lotto-muted hover:border-lotto-gold/60 hover:text-lotto-text'
             }`}
           >
             Vista Simultanea
@@ -58,8 +58,8 @@ export const Sidebar = ({ games, isOpen, onClose }) => {
               onClick={() => handleSelect(game.id)}
               className={`w-full rounded-lg border px-3 py-2 text-left transition ${
                 currentGame === game.id
-                  ? 'border-lotto-gold bg-lotto-gold/10 text-lotto-text'
-                  : 'border-lotto-border text-lotto-muted hover:border-lotto-neon/60 hover:text-lotto-text'
+                  ? 'border-lotto-gold bg-[#fbf7ea] text-lotto-text'
+                  : 'border-[#d2d8e1] bg-[#f7f8fb] text-lotto-muted hover:border-lotto-neon/60 hover:text-lotto-text'
               }`}
             >
               {game.name}
@@ -67,7 +67,7 @@ export const Sidebar = ({ games, isOpen, onClose }) => {
           ))}
         </nav>
 
-        <div className="mt-auto rounded-lg border border-lotto-border bg-[#0f1b31] p-3 text-xs text-lotto-muted">
+        <div className="mt-auto rounded-lg border border-[#d0d6e0] bg-[#e9edf3] p-3 text-xs text-lotto-muted">
           Datos en vivo por WebSocket simulado cada 90 segundos para preproduccion Vercel.
         </div>
       </aside>

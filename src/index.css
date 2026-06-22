@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   * {
@@ -20,6 +20,6 @@
   }
 
   body {
-    @apply bg-lotto-bg font-body text-lotto-text antialiased;
+    @apply bg-white font-body text-lotto-text antialiased;
   }
 }

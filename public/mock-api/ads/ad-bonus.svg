@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" preserveAspectRatio="none" role="img" aria-label="Bono de Bienvenida">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#08313a"/>
+      <stop offset="100%" stop-color="#0a1a35"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#g1)"/>
+  <circle cx="220" cy="120" r="130" fill="#39ff9b" opacity="0.15"/>
+  <circle cx="980" cy="520" r="190" fill="#f4c76c" opacity="0.15"/>
+  <text x="80" y="300" fill="#39ff9b" font-size="64" font-family="Arial, sans-serif" font-weight="700">Bono de Bienvenida</text>
+  <text x="80" y="370" fill="#e5edf8" font-size="38" font-family="Arial, sans-serif">Activa tu primer ticket y participa hoy</text>
+</svg>

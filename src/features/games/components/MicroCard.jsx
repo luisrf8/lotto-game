@@ -26,7 +26,7 @@ export const MicroCard = ({ animal, gameId, isWinner = false }) => {
           ? 'animate-pulseGlow border-lotto-neon bg-lotto-neon/15 text-lotto-text shadow-neon'
           : isSelected
           ? 'border-lotto-neon bg-lotto-neon/10 text-lotto-text shadow-neon'
-          : 'border-lotto-border bg-[#101a2d]/80 text-lotto-text hover:border-lotto-gold/70'
+          : 'border-lotto-border bg-white text-lotto-text hover:border-lotto-gold/70'
       }`}
     >
       <span className="text-2xl leading-none">{animal.icon}</span>

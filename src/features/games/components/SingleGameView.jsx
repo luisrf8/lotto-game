@@ -1,5 +1,23 @@
 import { VideoPlayer } from '@/features/streaming/components/VideoPlayer'
 
-export const SingleGameView = ({ game }) => {
-  return <VideoPlayer title={game.name} subtitle={game.streamLabel} />
+export const SingleGameView = ({
+  game,
+  latestResult,
+  resultsByGame,
+  syncMeta,
+  games,
+  currentGame,
+  onSelectGame,
+}) => {
+  return (
+    <VideoPlayer
+      game={game}
+      latestResult={latestResult}
+      resultsByGame={resultsByGame}
+      syncMeta={syncMeta}
+      games={games}
+      currentGame={currentGame}
+      onSelectGame={onSelectGame}
+    />
+  )
 }

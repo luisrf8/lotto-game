@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
-import { pickUniqueResults } from '../services/mockData'
 import {
   createGameWinnerSocket,
-  GAME_WINNER_INTERVAL_MS,
 } from '../services/mockWebSocket'
-
-const INTERVAL_MS = GAME_WINNER_INTERVAL_MS
+import {
+  DEFAULT_REALTIME_CONFIG,
+  fetchRealtimeConfig,
+} from '../services/realtimeConfig'
 
 const toResultEntry = (animal, drawnAt = new Date().toISOString()) => ({
   animal,
@@ -16,6 +16,22 @@ export const useGameSync = (games, gameDataById) => {
   const [resultsByGame, setResultsByGame] = useState({})
   const [lastUpdate, setLastUpdate] = useState(() => new Date())
   const [winnerEvent, setWinnerEvent] = useState(null)
+  const [nextDrawAt, setNextDrawAt] = useState(() => Date.now())
+  const [remainingMs, setRemainingMs] = useState(0)
+  const [realtimeConfig, setRealtimeConfig] = useState(DEFAULT_REALTIME_CONFIG)
+
+  useEffect(() => {
+    let mounted = true
+
+    fetchRealtimeConfig().then((config) => {
+      if (!mounted) return
+      setRealtimeConfig(config)
+    })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     setResultsByGame((prev) => {
@@ -41,13 +57,15 @@ export const useGameSync = (games, gameDataById) => {
   }, [games, gameDataById])
 
   useEffect(() => {
-    const socket = createGameWinnerSocket({ intervalMs: INTERVAL_MS })
+    const intervalMs = realtimeConfig.winnerIntervalMs
+    const socket = createGameWinnerSocket({ intervalMs })
 
     const unsubscribe = socket.subscribe((event) => {
       if (event.type !== 'winner') return
 
       setWinnerEvent(event)
       setLastUpdate(new Date())
+      setNextDrawAt(Date.now() + intervalMs)
       setResultsByGame((prev) => {
         const previousResults = prev[event.gameId] || []
         const withoutWinner = previousResults.filter(
@@ -70,11 +88,31 @@ export const useGameSync = (games, gameDataById) => {
       unsubscribe()
       socket.stop()
     }
-  }, [games, gameDataById])
+  }, [games, gameDataById, realtimeConfig.winnerIntervalMs])
+
+  useEffect(() => {
+    setRemainingMs(Math.max(nextDrawAt - Date.now(), 0))
+    const timer = setInterval(() => {
+      setRemainingMs((prev) => {
+        if (prev <= 1000) return 0
+        return prev - 1000
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [nextDrawAt])
 
   const syncMeta = useMemo(
-    () => ({ intervalMs: INTERVAL_MS, lastUpdate, transport: 'websocket-mock' }),
-    [lastUpdate],
+    () => ({
+      intervalMs: realtimeConfig.winnerIntervalMs,
+      adThresholdMs: realtimeConfig.adThresholdMs,
+      ads: realtimeConfig.ads,
+      lastUpdate,
+      nextDrawAt,
+      remainingMs,
+      transport: 'websocket-mock',
+    }),
+    [lastUpdate, nextDrawAt, realtimeConfig, remainingMs],
   )
 
   return { resultsByGame, syncMeta, winnerEvent }

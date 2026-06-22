@@ -5,17 +5,17 @@ export default {
     extend: {
       colors: {
         lotto: {
-          bg: '#070b12',
-          panel: '#0f1726',
-          border: '#1e293b',
-          neon: '#39ff9b',
-          gold: '#f4c76c',
-          text: '#e5edf8',
-          muted: '#8ea3bf',
+          bg: '#f5f6f8',
+          panel: '#ffffff',
+          border: '#d7dde6',
+          neon: '#0c9e34',
+          gold: '#ca9d1c',
+          text: '#0f1f2f',
+          muted: '#5f6f83',
         },
       },
       boxShadow: {
-        neon: '0 0 0 1px rgba(57, 255, 155, 0.35), 0 0 24px rgba(57, 255, 155, 0.16)',
+        neon: '0 0 0 1px rgba(12, 158, 52, 0.28), 0 0 18px rgba(12, 158, 52, 0.14)',
       },
       keyframes: {
         pulseGlow: {
@@ -48,7 +48,7 @@ export default {
         body: ['Rajdhani', 'sans-serif'],
       },
       backgroundImage: {
-        halo: 'radial-gradient(circle at 10% 10%, rgba(57,255,155,0.12), transparent 30%), radial-gradient(circle at 95% 20%, rgba(244,199,108,0.12), transparent 30%)',
+        halo: 'radial-gradient(circle at 10% 10%, rgba(12,158,52,0.1), transparent 34%), radial-gradient(circle at 95% 20%, rgba(202,157,28,0.08), transparent 34%)',
       },
     },
   },
