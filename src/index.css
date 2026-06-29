@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,4 +44,11 @@
 .winner-video-el::-webkit-media-controls-fullscreen-button,
 .winner-video-el::-webkit-media-controls-overflow-button {
   display: none !important;
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: 'Luckiest Guy', 'Orbitron', sans-serif !important;
+    font-weight: 400;
+  }
 }

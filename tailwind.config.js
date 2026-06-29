@@ -44,7 +44,7 @@ export default {
         fireworkBurst: 'fireworkBurst 1.3s ease-out infinite',
       },
       fontFamily: {
-        heading: ['Orbitron', 'sans-serif'],
+        heading: ['Luckiest Guy', 'Orbitron', 'sans-serif'],
         body: ['Rajdhani', 'sans-serif'],
       },
       backgroundImage: {
