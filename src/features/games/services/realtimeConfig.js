@@ -4,6 +4,7 @@ export const DEFAULT_REALTIME_CONFIG = {
   winnerIntervalMs: 90000,
   adThresholdMs: 60000,
   ads: [],
+  winnerVideosByGame: {},
 }
 
 export const fetchRealtimeConfig = async () => {
@@ -29,6 +30,10 @@ export const fetchRealtimeConfig = async () => {
           ? payload.adThresholdMs
           : DEFAULT_REALTIME_CONFIG.adThresholdMs,
       ads: Array.isArray(payload.ads) ? payload.ads : DEFAULT_REALTIME_CONFIG.ads,
+      winnerVideosByGame:
+        payload.winnerVideosByGame && typeof payload.winnerVideosByGame === 'object'
+          ? payload.winnerVideosByGame
+          : DEFAULT_REALTIME_CONFIG.winnerVideosByGame,
     }
   } catch {
     return DEFAULT_REALTIME_CONFIG

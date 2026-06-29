@@ -30,6 +30,7 @@ export const mockGames = [
     name: 'Lotto Activo',
     accent: 'neon',
     streamLabel: 'Canal Principal',
+    logo: '/mock-api/games/LottoActivoElPatronus.png',
     apiPath: buildApiPath(
       GAME_API_ENDPOINTS.LOTTO_ACTIVO,
       '/mock-api/games/lotto-activo.json',
@@ -40,6 +41,7 @@ export const mockGames = [
     name: 'Lotto Inter',
     accent: 'gold',
     streamLabel: 'Canal Inter',
+    logo: '/mock-api/games/TrioActivo_LA.png',
     apiPath: buildApiPath(
       GAME_API_ENDPOINTS.LOTTO_INTER,
       '/mock-api/games/lotto-inter.json',
@@ -50,6 +52,7 @@ export const mockGames = [
     name: 'Monje Millonario',
     accent: 'neon',
     streamLabel: 'Canal Monje',
+    logo: '/mock-api/games/IMG_6868.PNG',
     apiPath: buildApiPath(
       GAME_API_ENDPOINTS.MONJE_MILLONARIO,
       '/mock-api/games/monje-millonario.json',

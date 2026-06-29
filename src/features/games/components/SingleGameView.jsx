@@ -5,6 +5,7 @@ export const SingleGameView = ({
   latestResult,
   resultsByGame,
   syncMeta,
+  winnerEvent,
   games,
   currentGame,
   onSelectGame,
@@ -15,6 +16,7 @@ export const SingleGameView = ({
       latestResult={latestResult}
       resultsByGame={resultsByGame}
       syncMeta={syncMeta}
+      winnerEvent={winnerEvent}
       games={games}
       currentGame={currentGame}
       onSelectGame={onSelectGame}

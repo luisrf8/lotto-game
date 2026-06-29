@@ -107,6 +107,7 @@ export const useGameSync = (games, gameDataById) => {
       intervalMs: realtimeConfig.winnerIntervalMs,
       adThresholdMs: realtimeConfig.adThresholdMs,
       ads: realtimeConfig.ads,
+      winnerVideosByGame: realtimeConfig.winnerVideosByGame,
       lastUpdate,
       nextDrawAt,
       remainingMs,

@@ -23,3 +23,25 @@
     @apply bg-white font-body text-lotto-text antialiased;
   }
 }
+
+.winner-video-el::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.winner-video-el::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.winner-video-el::-webkit-media-controls-play-button,
+.winner-video-el::-webkit-media-controls-start-playback-button,
+.winner-video-el::-webkit-media-controls-timeline,
+.winner-video-el::-webkit-media-controls-current-time-display,
+.winner-video-el::-webkit-media-controls-time-remaining-display,
+.winner-video-el::-webkit-media-controls-volume-slider,
+.winner-video-el::-webkit-media-controls-mute-button,
+.winner-video-el::-webkit-media-controls-fullscreen-button,
+.winner-video-el::-webkit-media-controls-overflow-button {
+  display: none !important;
+}

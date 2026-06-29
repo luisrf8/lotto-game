@@ -4,18 +4,65 @@
   "ads": [
     {
       "id": "promo-1",
-      "title": "Bono de Bienvenida",
-      "image": "/mock-api/ads/ad-bonus.svg"
+      "title": "Sorteo Internacional",
+      "image": "/mock-api/ads/sorteointernacional.jpg"
     },
     {
       "id": "promo-2",
-      "title": "Multiplica tu premio",
-      "image": "/mock-api/ads/ad-multiplier.svg"
+      "title": "Ganar Siempre Sera Divertido",
+      "image": "/mock-api/ads/ganarsiempreseradivertido.jpg"
     },
     {
       "id": "promo-3",
-      "title": "Sorteo especial nocturno",
-      "image": "/mock-api/ads/ad-night.svg"
+      "title": "Flyer Ruleta Animales y Grupos",
+      "image": "/mock-api/ads/flyerruleta.jpg"
+    },
+    {
+      "id": "promo-4",
+      "title": "Aviso Gana Con Triple y Terminal",
+      "image": "/mock-api/ads/aviso.jpg"
     }
-  ]
+  ],
+  "winnerVideosByGame": {
+    "LOTTO_ACTIVO": {
+      "0": "https://drive.google.com/uc?export=download&id=1pyvkd7o-nK8y4x_bxGQjQTh-lHP1qI-s",
+      "00": "https://drive.google.com/uc?export=download&id=1pzdgEuHpJ4ZtE2pJbrnkNcL5ArNmfr_5",
+      "01": "https://drive.google.com/uc?export=download&id=1ppeXoS_bWWGzjBAkJTLmk0UTSwRFPXfa",
+      "02": "https://drive.google.com/uc?export=download&id=1pPC7VfEMFC7I1jAhJQDAV84AV_qg-S8t",
+      "03": "https://drive.google.com/uc?export=download&id=1pAxEkkj4opqqoYcnJXWHZeBL6ziV4ASI",
+      "04": "https://drive.google.com/uc?export=download&id=1ptMJ3oHFNZOcn_hI0_CTgAHtsuA3MJdW",
+      "05": "https://drive.google.com/uc?export=download&id=1pVDcSC85vI0l6LnYBVz44nfLuSduk7hU",
+      "06": "https://drive.google.com/uc?export=download&id=1pCiJiiB0iDJz4tW7qRWNeHhgz3dGOH0P",
+      "07": "https://drive.google.com/uc?export=download&id=1u8rgm4H2-iFMsXLPfCLUIF7k4-1Q7mhi",
+      "08": "https://drive.google.com/uc?export=download&id=1pNH4EG_wii3xVYYrXnQNWGpRX456sSeS",
+      "09": "https://drive.google.com/uc?export=download&id=1oycyU3XF--KMsQ_0jRloNXRfOgzVf16d",
+      "10": "https://drive.google.com/uc?export=download&id=1pkJEvGvnpDHP91L8OfsgLvRv8s42HiyM",
+      "11": "https://drive.google.com/uc?export=download&id=1pIlFs-Ia3j-DAI_sbd3qjrLgXo7-G-Cd",
+      "12": "https://drive.google.com/uc?export=download&id=1ox-yBZiC2SGkPKnIhmB59VB7_yMvgxqG",
+      "13": "https://drive.google.com/uc?export=download&id=1pZ3QzpqI8-COojZ4ShN8rMBtcA5H8EKc",
+      "14": "https://drive.google.com/uc?export=download&id=1pD6kiJoQ34OmtZ7J4T1PLIItuNVtYHQH",
+      "15": "https://drive.google.com/uc?export=download&id=1ox_4acwQ0cN54o3Yaq-a_s4VOCUs6ZvW",
+      "16": "https://drive.google.com/uc?export=download&id=1phEl9E6zEHIlXK_-zoVefb_F20SFNXJq",
+      "17": "https://drive.google.com/uc?export=download&id=1pDssEyAXJD7hdQ7mEnVJApmxNtFtz5rc",
+      "18": "https://drive.google.com/uc?export=download&id=1pyhXs6mxmgqiNmM1r8MAn_JmnLzmpmgn",
+      "19": "https://drive.google.com/uc?export=download&id=1pPBpP_a75TyoLuAbf8s_9QdkuFKtdd8p",
+      "20": "https://drive.google.com/uc?export=download&id=1pAb2CPqP7UuKe4leIajybsJunZ9negYg",
+      "21": "https://drive.google.com/uc?export=download&id=1pqIjpI0ppkoZJsHW4bJDgMwuzwm8ku0g",
+      "22": "https://drive.google.com/uc?export=download&id=1pT6qWoSF6Bh47efB25xOoqbRud-nYGY3",
+      "23": "https://drive.google.com/uc?export=download&id=1pCeIMdDGmTCjfCXb4xqJbS-OEBqVqv_z",
+      "24": "https://drive.google.com/uc?export=download&id=1pttES9BY9Xp5yxRYOOnOTfnoG32-lHSm",
+      "25": "https://drive.google.com/uc?export=download&id=1pOzJ-sPRXLzgFiEIkcZpUyR_MWsmMtc8",
+      "26": "https://drive.google.com/uc?export=download&id=1ozwgmX41l7GeOt2wdVkLn8wHOoVEHhTg",
+      "27": "https://drive.google.com/uc?export=download&id=1pkbwEwHUoITLja4TDKj9wNVLPvcC9Gwx",
+      "28": "https://drive.google.com/uc?export=download&id=1pGF9kiVeYJ6K0jybv6z9p3fZhkFFJuom",
+      "29": "https://drive.google.com/uc?export=download&id=1p7Ga4vIOYH4XJXCSy4vpQt9IdG6OzwVs",
+      "30": "https://drive.google.com/uc?export=download&id=1pjJAtp9al7DaBPocjLQLFW4jegNfq3l1",
+      "31": "https://drive.google.com/uc?export=download&id=1pKWRAWR9tJQWQTJHGOv_YxjabmVEp_e6",
+      "32": "https://drive.google.com/uc?export=download&id=1oxN3AsudOBJQjXhjX9LwqrSa6B168iQf",
+      "33": "https://drive.google.com/uc?export=download&id=1pf8JaElQ7nQMpz6JaDy3OgalmkZEODVh",
+      "34": "https://drive.google.com/uc?export=download&id=1pD9-tWqmegk2_-FY9yb8ICtRzVW-GtT8",
+      "35": "https://drive.google.com/uc?export=download&id=1owYXlG5I2PTYtGwWM6m4lJhYjtqNBKDD",
+      "36": "https://drive.google.com/uc?export=download&id=1pibPTNnWLGYwkTjP1NsveuC_8L7EhSBx"
+    }
+  }
 }
