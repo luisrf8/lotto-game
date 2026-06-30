@@ -378,24 +378,26 @@ export const VideoPlayer = ({
                 >
                   <div className="flex items-center gap-2">
                     <span
-                      className={`inline-flex h-11 w-11 items-center justify-center rounded-md font-heading text-2xl ${
-                        index === 0 ? 'bg-[#1c7d50] text-white' : 'bg-[#dde3ea] text-[#1a2330]'
+                      className={`inline-flex h-11 w-11 items-center justify-center rounded-full border text-2xl ${
+                        index === 0
+                          ? 'border-[#1c7d50] bg-[#e3f4eb] text-[#1c7d50]'
+                          : 'border-[#d0d8e2] bg-[#eef2f7] text-[#283444]'
                       }`}
                     >
-                      {item.number.toString().padStart(2, '0')}
+                      {item.icon || '🐾'}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-heading text-xl uppercase text-[#2d3d52] sm:text-2xl">{item.name}</p>
-                      <div className="mt-1 flex items-center justify-between gap-2 text-xs">
-                        {index === 0 ? (
-                          <span className="font-semibold uppercase tracking-[0.08em] text-[#d49e1f]">
-                            Ganador destacado
+                      <div className="flex items-center gap-1">
+                        <div className="flex min-w-0 items-center gap-1">
+                          <p className="font-heading text-xl uppercase leading-none text-[#2d3d52] sm:text-2xl">
+                            {item.name}
+                          </p>
+                          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#1c7d50] font-heading text-base leading-none text-white sm:h-9 sm:w-9 sm:text-lg">
+                            {item.number.toString().padStart(2, '0')}
                           </span>
-                        ) : (
-                          <span className="font-semibold uppercase text-[#8792a3]">Resultado</span>
-                        )}
-                        <span className="font-heading text-base text-[#7d8798]">{item.time}</span>
+                        </div>
                       </div>
+                      <p className="mt-1 font-heading text-base text-[#7d8798]">{item.time}</p>
                     </div>
                   </div>
                 </button>

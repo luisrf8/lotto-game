@@ -44,8 +44,8 @@ export default {
         fireworkBurst: 'fireworkBurst 1.3s ease-out infinite',
       },
       fontFamily: {
-        heading: ['Luckiest Guy', 'Orbitron', 'sans-serif'],
-        body: ['Rajdhani', 'sans-serif'],
+        heading: ['Poppins', 'sans-serif'],
+        body: ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
         halo: 'radial-gradient(circle at 10% 10%, rgba(12,158,52,0.1), transparent 34%), radial-gradient(circle at 95% 20%, rgba(202,157,28,0.08), transparent 34%)',
