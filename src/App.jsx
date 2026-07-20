@@ -5,8 +5,8 @@ import { useGameSync } from '@/features/games/hooks/useGameSync'
 import { SIMULTANEOUS, useGameStore } from '@/store/useGameStore'
 
 function App() {
-  const { games, currentGame, currentGameData, gameDataById } = useGameData()
-  const { resultsByGame, syncMeta, winnerEvent } = useGameSync(games, gameDataById)
+  const { games, currentGame, currentGameData, gameDataById, pollingMeta } = useGameData()
+  const { resultsByGame, syncMeta, winnerEvent } = useGameSync(games, gameDataById, pollingMeta)
   const setCurrentGame = useGameStore((state) => state.setCurrentGame)
 
   const activeGame = useMemo(() => {

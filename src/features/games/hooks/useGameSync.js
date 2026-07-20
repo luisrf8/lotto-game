@@ -1,7 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import {
-  createGameWinnerSocket,
-} from '../services/mockWebSocket'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DEFAULT_REALTIME_CONFIG,
   fetchRealtimeConfig,
@@ -12,13 +9,14 @@ const toResultEntry = (animal, drawnAt = new Date().toISOString()) => ({
   drawnAt,
 })
 
-export const useGameSync = (games, gameDataById) => {
+export const useGameSync = (games, gameDataById, pollingMeta) => {
   const [resultsByGame, setResultsByGame] = useState({})
   const [lastUpdate, setLastUpdate] = useState(() => new Date())
   const [winnerEvent, setWinnerEvent] = useState(null)
-  const [nextDrawAt, setNextDrawAt] = useState(() => Date.now())
+  const [nextDrawAt, setNextDrawAt] = useState(() => pollingMeta?.nextDrawAt || Date.now())
   const [remainingMs, setRemainingMs] = useState(0)
   const [realtimeConfig, setRealtimeConfig] = useState(DEFAULT_REALTIME_CONFIG)
+  const previousTopResultByGameRef = useRef({})
 
   useEffect(() => {
     let mounted = true
@@ -57,38 +55,38 @@ export const useGameSync = (games, gameDataById) => {
   }, [games, gameDataById])
 
   useEffect(() => {
-    const intervalMs = realtimeConfig.winnerIntervalMs
-    const socket = createGameWinnerSocket({ intervalMs })
+    let latestEvent = null
 
-    const unsubscribe = socket.subscribe((event) => {
-      if (event.type !== 'winner') return
+    games.forEach((game) => {
+      const topResult = gameDataById[game.id]?.lastResults?.[0]
+      if (!topResult) return
 
-      setWinnerEvent(event)
+      const topResultKey = `${String(topResult.number)}-${topResult.name || ''}`
+      const previousKey = previousTopResultByGameRef.current[game.id]
+
+      previousTopResultByGameRef.current[game.id] = topResultKey
+
+      if (!previousKey || previousKey === topResultKey) return
+
+      latestEvent = {
+        type: 'winner',
+        gameId: game.id,
+        gameName: game.name,
+        winner: topResult,
+        at: new Date().toISOString(),
+      }
+    })
+
+    if (latestEvent) {
+      setWinnerEvent(latestEvent)
       setLastUpdate(new Date())
-      setNextDrawAt(Date.now() + intervalMs)
-      setResultsByGame((prev) => {
-        const previousResults = prev[event.gameId] || []
-        const withoutWinner = previousResults.filter(
-          (item) => item.animal.number !== event.winner.number,
-        )
-
-        return {
-          ...prev,
-          [event.gameId]: [toResultEntry(event.winner), ...withoutWinner].slice(0, 3),
-        }
-      })
-    })
-
-    socket.start({
-      games,
-      getGameData: (gameId) => gameDataById[gameId],
-    })
-
-    return () => {
-      unsubscribe()
-      socket.stop()
     }
-  }, [games, gameDataById, realtimeConfig.winnerIntervalMs])
+  }, [games, gameDataById])
+
+  useEffect(() => {
+    if (!pollingMeta?.nextDrawAt) return
+    setNextDrawAt(pollingMeta.nextDrawAt)
+  }, [pollingMeta?.nextDrawAt])
 
   useEffect(() => {
     setRemainingMs(Math.max(nextDrawAt - Date.now(), 0))
@@ -104,16 +102,16 @@ export const useGameSync = (games, gameDataById) => {
 
   const syncMeta = useMemo(
     () => ({
-      intervalMs: realtimeConfig.winnerIntervalMs,
+      intervalMs: pollingMeta?.pollIntervalMs || realtimeConfig.winnerIntervalMs,
       adThresholdMs: realtimeConfig.adThresholdMs,
       ads: realtimeConfig.ads,
       winnerVideosByGame: realtimeConfig.winnerVideosByGame,
       lastUpdate,
       nextDrawAt,
       remainingMs,
-      transport: 'websocket-mock',
+      transport: 'official-api-polling',
     }),
-    [lastUpdate, nextDrawAt, realtimeConfig, remainingMs],
+    [lastUpdate, nextDrawAt, pollingMeta?.pollIntervalMs, realtimeConfig, remainingMs],
   )
 
   return { resultsByGame, syncMeta, winnerEvent }

@@ -8,8 +8,8 @@ export const REALTIME_CONFIG_ENDPOINT =
 export const GAME_API_ENDPOINTS = {
   LOTTO_ACTIVO: env.VITE_API_GAME_LOTTO_ACTIVO || '/mock-api/games/lotto-activo.json',
   LOTTO_INTER: env.VITE_API_GAME_LOTTO_INTER || '/mock-api/games/lotto-inter.json',
-  MONJE_MILLONARIO:
-    env.VITE_API_GAME_MONJE_MILLONARIO || '/mock-api/games/monje-millonario.json',
+  PATRONUS: env.VITE_API_GAME_PATRONUS || '/mock-api/games/patronus.json',
+  TRIO_ACTIVO: env.VITE_API_GAME_TRIO_ACTIVO || '/mock-api/games/trio-activo.json',
 }
 
 export const PRODUCT_API_ENDPOINTS = {
@@ -18,4 +18,23 @@ export const PRODUCT_API_ENDPOINTS = {
   PRICING: env.VITE_API_PRODUCTS_PRICING || '/mock-api/products/pricing.json',
   AVAILABILITY:
     env.VITE_API_PRODUCTS_AVAILABILITY || '/mock-api/products/availability.json',
+}
+
+const parseBooleanEnv = (value, defaultValue = false) => {
+  if (value === undefined || value === null || value === '') return defaultValue
+  return String(value).toLowerCase() === 'true'
+}
+
+const parseNumberEnv = (value, defaultValue) => {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : defaultValue
+}
+
+export const LOTTO_ACTIVO_OFFICIAL_API = {
+  url: env.VITE_LOTTO_ACTIVO_API_URL || '/lotto-api/api.php',
+  user: env.VITE_LOTTO_ACTIVO_API_USER || 'pagosrapidos',
+  pass: env.VITE_LOTTO_ACTIVO_API_PASS || '123456P*',
+  date: env.VITE_LOTTO_ACTIVO_API_DATE || '',
+  enabled: parseBooleanEnv(env.VITE_LOTTO_ACTIVO_API_ENABLED, true),
+  minIntervalMs: parseNumberEnv(env.VITE_LOTTO_ACTIVO_API_MIN_INTERVAL_MS, 5000),
 }

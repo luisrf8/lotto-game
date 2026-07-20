@@ -1,8 +1,11 @@
+import { GameSelectorButton } from '@/features/games/components/GameSelectorButton'
+import { useGameVisuals } from '@/features/games/hooks/useGameVisuals'
 import { SIMULTANEOUS, useGameStore } from '@/store/useGameStore'
 
 export const Sidebar = ({ games, isOpen, onClose }) => {
   const currentGame = useGameStore((state) => state.currentGame)
   const setCurrentGame = useGameStore((state) => state.setCurrentGame)
+  const visualGames = useGameVisuals(games)
 
   const handleSelect = (gameId) => {
     setCurrentGame(gameId)
@@ -42,28 +45,22 @@ export const Sidebar = ({ games, isOpen, onClose }) => {
           <button
             type="button"
             onClick={() => handleSelect(SIMULTANEOUS)}
-            className={`w-full rounded-lg border px-3 py-2 text-left transition ${
+            className={`w-full rounded-lg border px-3 py-2 text-left text-black transition ${
               currentGame === SIMULTANEOUS
-                ? 'border-lotto-neon bg-lotto-neon/10 text-lotto-text'
-                : 'border-[#d2d8e1] bg-[#f7f8fb] text-lotto-muted hover:border-lotto-gold/60 hover:text-lotto-text'
+                ? 'border-lotto-neon bg-lotto-neon/10'
+                : 'border-[#d2d8e1] bg-[#f7f8fb] hover:border-lotto-gold/60'
             }`}
           >
             Vista Simultanea
           </button>
 
-          {games.map((game) => (
-            <button
+          {visualGames.map((game) => (
+            <GameSelectorButton
               key={game.id}
-              type="button"
+              game={game}
+              active={currentGame === game.id}
               onClick={() => handleSelect(game.id)}
-              className={`w-full rounded-lg border px-3 py-2 text-left transition ${
-                currentGame === game.id
-                  ? 'border-lotto-gold bg-[#fbf7ea] text-lotto-text'
-                  : 'border-[#d2d8e1] bg-[#f7f8fb] text-lotto-muted hover:border-lotto-neon/60 hover:text-lotto-text'
-              }`}
-            >
-              {game.name}
-            </button>
+            />
           ))}
         </nav>
 
