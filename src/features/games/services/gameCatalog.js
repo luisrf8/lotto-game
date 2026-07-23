@@ -264,10 +264,7 @@ const GAME_ASSETS = {
     logo: '/mock-api/games/trio-activo/logo/logo.png',
     ruleta: '/mock-api/games/trio-activo/ruleta/ruleta.png',
     animalitoDigits: 3,
-    animalitoImageResolver: createAnimalitoImageResolver('/mock-api/games/trio-activo/animalitos', {
-      digits: 3,
-      formats: ['png', 'webp'],
-    }),
+    animalitoImageResolver: () => [],
   },
 }
 

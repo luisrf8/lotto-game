@@ -31,7 +31,7 @@ const parseNumberEnv = (value, defaultValue) => {
 }
 
 export const LOTTO_ACTIVO_OFFICIAL_API = {
-  url: env.VITE_LOTTO_ACTIVO_API_URL || '/lotto-api/api.php',
+  url: env.VITE_LOTTO_ACTIVO_API_URL || 'https://lottoactivo.com/api.php',
   user: env.VITE_LOTTO_ACTIVO_API_USER || 'pagosrapidos',
   pass: env.VITE_LOTTO_ACTIVO_API_PASS || '123456P*',
   date: env.VITE_LOTTO_ACTIVO_API_DATE || '',
