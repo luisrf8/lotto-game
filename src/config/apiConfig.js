@@ -30,11 +30,46 @@ const parseNumberEnv = (value, defaultValue) => {
   return Number.isFinite(parsed) ? parsed : defaultValue
 }
 
+const formatIsoDate = (value) => {
+  const year = value.getFullYear()
+  const month = String(value.getMonth() + 1).padStart(2, '0')
+  const day = String(value.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
+export const DEFAULT_OFFICIAL_API_DATE = formatIsoDate(new Date())
+
+const OFFICIAL_API_PROXY_PREFIX = '/lotto-api'
+const OFFICIAL_API_DEFAULT_URL = `${OFFICIAL_API_PROXY_PREFIX}/api.php`
+const OFFICIAL_API_UPSTREAM_ORIGIN = 'https://lottoactivo.com'
+
+const resolveOfficialApiUrl = (value) => {
+  if (!value) return OFFICIAL_API_DEFAULT_URL
+
+  const normalized = String(value).trim()
+  if (/^https?:\/\//i.test(normalized)) {
+    try {
+      const parsed = new URL(normalized)
+
+      if (parsed.origin === OFFICIAL_API_UPSTREAM_ORIGIN) {
+        return `${OFFICIAL_API_PROXY_PREFIX}${parsed.pathname}${parsed.search}`
+      }
+
+      return normalized
+    } catch {
+      return OFFICIAL_API_DEFAULT_URL
+    }
+  }
+
+  return normalized
+}
+
 export const LOTTO_ACTIVO_OFFICIAL_API = {
-  url: env.VITE_LOTTO_ACTIVO_API_URL || 'https://lottoactivo.com/api.php',
+  url: resolveOfficialApiUrl(env.VITE_LOTTO_ACTIVO_API_URL),
   user: env.VITE_LOTTO_ACTIVO_API_USER || 'pagosrapidos',
-  pass: env.VITE_LOTTO_ACTIVO_API_PASS || '123456P*',
-  date: env.VITE_LOTTO_ACTIVO_API_DATE || '',
+  pass: env.VITE_LOTTO_ACTIVO_API_PASS || 'Test1234',
+  date: env.VITE_LOTTO_ACTIVO_API_DATE || DEFAULT_OFFICIAL_API_DATE,
   enabled: parseBooleanEnv(env.VITE_LOTTO_ACTIVO_API_ENABLED, true),
   minIntervalMs: parseNumberEnv(env.VITE_LOTTO_ACTIVO_API_MIN_INTERVAL_MS, 5000),
 }

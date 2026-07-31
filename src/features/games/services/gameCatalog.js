@@ -37,7 +37,9 @@ export const OFFICIAL_API_MONITOR_DEFINITIONS = [
     gameName: 'Lotto Activo',
     type: 2,
     idgame: 1,
+    digits: 2,
     resultKind: 'Animalitos',
+    description: 'Animalitos Lotto Activo con idgame=1',
   },
   {
     key: 'LOTTO_INTER_ANIMALITOS',
@@ -45,7 +47,9 @@ export const OFFICIAL_API_MONITOR_DEFINITIONS = [
     gameName: 'Lotto Activo RD Internacional',
     type: 2,
     idgame: 2,
+    digits: 2,
     resultKind: 'Animalitos',
+    description: 'Animalitos Lotto Activo RD Internacional con idgame=2',
   },
   {
     key: 'PATRONUS_ANIMALITOS',
@@ -53,7 +57,9 @@ export const OFFICIAL_API_MONITOR_DEFINITIONS = [
     gameName: 'Lotto Activo Republica Dominicana',
     type: 2,
     idgame: 3,
+    digits: 2,
     resultKind: 'Animalitos',
+    description: 'Animalitos Lotto Activo Republica Dominicana con idgame=3',
   },
   {
     key: 'TRIO_ACTIVO_TRIPLES',
@@ -61,7 +67,9 @@ export const OFFICIAL_API_MONITOR_DEFINITIONS = [
     gameName: 'Trio Activo',
     type: 1,
     idgame: 4,
+    digits: 3,
     resultKind: 'Triples',
+    description: 'Triples Trio Activo con idgame=4',
   },
   {
     key: 'TERMINAL_TRIO_TERMINALES',
@@ -69,7 +77,27 @@ export const OFFICIAL_API_MONITOR_DEFINITIONS = [
     gameName: 'Terminal Trio',
     type: 1,
     idgame: 5,
+    digits: 2,
     resultKind: 'Terminales',
+    description: 'Terminales Trio con idgame=5',
+  },
+]
+
+export const OFFICIAL_API_MONITOR_SEQUENCES = [
+  {
+    key: 'ALL_IDS_TODAY',
+    label: 'Secuencia hoy',
+    description: 'Ejecuta los cinco ids documentados usando la fecha actual del API.',
+    dateMode: 'today',
+    definitionKeys: OFFICIAL_API_MONITOR_DEFINITIONS.map((definition) => definition.key),
+  },
+  {
+    key: 'ALL_IDS_CONFIGURED_DATE',
+    label: 'Secuencia con fecha',
+    description: 'Repite los cinco ids usando el parametro date configurado en VITE_LOTTO_ACTIVO_API_DATE.',
+    dateMode: 'configured',
+    requiresConfiguredDate: true,
+    definitionKeys: OFFICIAL_API_MONITOR_DEFINITIONS.map((definition) => definition.key),
   },
 ]
 
@@ -97,7 +125,12 @@ const emitMonitorState = () => {
 
 const buildRequestMonitorKey = (type, idgame) => `${type}-${idgame}`
 
-const resolveMonitorDefinition = ({ gameId, type, idgame }) => {
+const resolveMonitorDefinition = ({ monitorKey, gameId, type, idgame }) => {
+  if (monitorKey) {
+    const byKey = OFFICIAL_API_MONITOR_DEFINITIONS.find((entry) => entry.key === monitorKey)
+    if (byKey) return byKey
+  }
+
   if (gameId) {
     const byGame = OFFICIAL_API_MONITOR_DEFINITIONS.find((entry) => entry.gameId === gameId)
     if (byGame) return byGame
@@ -108,12 +141,17 @@ const resolveMonitorDefinition = ({ gameId, type, idgame }) => {
   )
 }
 
+const resolveMonitorRequestKey = ({ monitorKey, definition, type, idgame }) =>
+  monitorKey || definition?.key || buildRequestMonitorKey(type, idgame)
+
 const updateRequestMonitor = ({
+  monitorKey,
   gameId,
   type,
   idgame,
   status,
   requestUrl,
+  requestLabel,
   date,
   queuedAt,
   sentAt,
@@ -122,10 +160,11 @@ const updateRequestMonitor = ({
   durationMs,
   entriesCount,
   latestResults,
+  rawPayload,
   error,
 }) => {
-  const definition = resolveMonitorDefinition({ gameId, type, idgame })
-  const requestKey = buildRequestMonitorKey(type, idgame)
+  const definition = resolveMonitorDefinition({ monitorKey, gameId, type, idgame })
+  const requestKey = resolveMonitorRequestKey({ monitorKey, definition, type, idgame })
   const previous = apiMonitorState.requestsByKey[requestKey] || {
     requestKey,
     gameId: definition?.gameId || gameId || null,
@@ -143,6 +182,7 @@ const updateRequestMonitor = ({
     status,
     requestUrl: requestUrl || previous.requestUrl,
     date: date || previous.date || 'hoy',
+    requestLabel: requestLabel || previous.requestLabel || definition?.description || null,
     lastAttemptAt: queuedAt || previous.lastAttemptAt || null,
     lastQueuedAt: queuedAt || previous.lastQueuedAt || null,
     lastSentAt: sentAt || previous.lastSentAt || null,
@@ -151,6 +191,7 @@ const updateRequestMonitor = ({
     lastDurationMs: typeof durationMs === 'number' ? durationMs : previous.lastDurationMs,
     entriesCount: typeof entriesCount === 'number' ? entriesCount : previous.entriesCount,
     latestResults: latestResults || previous.latestResults || [],
+    rawPayload: rawPayload || (status === 'ok' ? previous.rawPayload : previous.rawPayload),
     lastError: error || (status === 'ok' ? null : previous.lastError),
     requestCount,
   }
@@ -162,7 +203,10 @@ const updateRequestMonitor = ({
         id: `${requestKey}-${completedAt || Date.now()}`,
         requestKey,
         gameName: apiMonitorState.requestsByKey[requestKey].gameName,
+        requestLabel: requestLabel || apiMonitorState.requestsByKey[requestKey].requestLabel || null,
         status,
+        date: date || null,
+        requestUrl: requestUrl || null,
         queuedAt: queuedAt || null,
         sentAt: sentAt || null,
         completedAt: completedAt || Date.now(),
@@ -454,6 +498,19 @@ const normalizeWinnerNumber = (value, digits = 2) => {
   return numeric
 }
 
+const pickOfficialEntryValue = (entry, candidateKeys = []) => {
+  for (const key of candidateKeys) {
+    const value = entry?.[key]
+
+    if (value === undefined || value === null) continue
+    if (typeof value === 'string' && value.trim() === '') continue
+
+    return value
+  }
+
+  return null
+}
+
 const resolveAnimalByNumber = (animalitos = [], number, digits = 2) => {
   const normalized = normalizeWinnerNumber(number, digits)
 
@@ -482,29 +539,49 @@ const normalizeOfficialResults = ({ entries, animalitos, digits = 2 }) => {
   const normalized = []
 
   entries.forEach((entry) => {
-    const numberValue =
-      entry?.number ??
-      entry?.numero ??
-      entry?.num ??
-      entry?.result ??
-      entry?.resultado ??
-      entry?.winner ??
-      entry?.animal
+    const numberValue = pickOfficialEntryValue(entry, [
+      'number',
+      'Number',
+      'numero',
+      'Numero',
+      'num',
+      'Num',
+      'result',
+      'Result',
+      'resultado',
+      'Resultado',
+      'winner',
+      'Winner',
+      'animal',
+      'Animal',
+      'A',
+      'B',
+      'C',
+    ])
 
     const normalizedNumber = normalizeWinnerNumber(numberValue, digits)
     if (normalizedNumber === null || normalizedNumber === undefined) return
 
     const matchedAnimal = resolveAnimalByNumber(animalitos, normalizedNumber, digits)
+    const entryName = pickOfficialEntryValue(entry, [
+      'name',
+      'Name',
+      'nombre',
+      'Nombre',
+      'animalName',
+      'AnimalName',
+      'animalito',
+      'Animalito',
+      'descripcion',
+      'Descripcion',
+      'description',
+      'Description',
+    ])
 
     normalized.push(
       matchedAnimal || {
         number: normalizedNumber,
-        name:
-          entry?.name ||
-          entry?.nombre ||
-          entry?.animalName ||
-          entry?.descripcion ||
-          `Resultado ${String(normalizedNumber).padStart(digits, '0')}`,
+        name: entryName || `Resultado ${String(normalizedNumber).padStart(digits, '0')}`,
         icon: digits >= 3 ? '🎲' : '🐾',
       },
     )
@@ -531,6 +608,14 @@ const loadBasePayload = async (game) => {
   }
 
   return response.json()
+}
+
+const resolveOfficialApiDate = (dateOverride) => {
+  if (typeof dateOverride === 'string') {
+    return dateOverride.trim()
+  }
+
+  return LOTTO_ACTIVO_OFFICIAL_API.date || ''
 }
 
 const enqueueOfficialRequest = async (url) => {
@@ -565,12 +650,16 @@ const enqueueOfficialRequest = async (url) => {
 }
 
 const executeOfficialApiRequest = async ({
+  monitorKey,
   gameId = null,
   type,
   idgame,
   animalitos = [],
   digits = 2,
+  requestLabel,
+  dateOverride,
 }) => {
+  const effectiveDate = resolveOfficialApiDate(dateOverride)
   const query = new URLSearchParams({
     user: LOTTO_ACTIVO_OFFICIAL_API.user,
     pass: LOTTO_ACTIVO_OFFICIAL_API.pass,
@@ -578,20 +667,22 @@ const executeOfficialApiRequest = async ({
     idgame: String(idgame),
   })
 
-  if (LOTTO_ACTIVO_OFFICIAL_API.date) {
-    query.set('date', LOTTO_ACTIVO_OFFICIAL_API.date)
+  if (effectiveDate) {
+    query.set('date', effectiveDate)
   }
 
   const requestUrl = `${LOTTO_ACTIVO_OFFICIAL_API.url}?${query.toString()}`
   const requestedAt = Date.now()
 
   updateRequestMonitor({
+    monitorKey,
     gameId,
     type,
     idgame,
     status: 'queued',
     requestUrl,
-    date: LOTTO_ACTIVO_OFFICIAL_API.date || 'hoy',
+    requestLabel,
+    date: effectiveDate || 'hoy',
     queuedAt: requestedAt,
   })
 
@@ -601,12 +692,14 @@ const executeOfficialApiRequest = async ({
     queueResult = await enqueueOfficialRequest(requestUrl)
   } catch (error) {
     updateRequestMonitor({
+      monitorKey,
       gameId,
       type,
       idgame,
       status: 'error',
       requestUrl,
-      date: LOTTO_ACTIVO_OFFICIAL_API.date || 'hoy',
+      requestLabel,
+      date: effectiveDate || 'hoy',
       queuedAt: requestedAt,
       completedAt: Date.now(),
       error: error instanceof Error ? error.message : 'Fallo de red',
@@ -618,12 +711,14 @@ const executeOfficialApiRequest = async ({
 
   if (!response.ok) {
     updateRequestMonitor({
+      monitorKey,
       gameId,
       type,
       idgame,
       status: 'error',
       requestUrl,
-      date: LOTTO_ACTIVO_OFFICIAL_API.date || 'hoy',
+      requestLabel,
+      date: effectiveDate || 'hoy',
       queuedAt,
       sentAt,
       completedAt: Date.now(),
@@ -639,12 +734,14 @@ const executeOfficialApiRequest = async ({
   const normalized = normalizeOfficialResults({ entries, animalitos, digits })
 
   updateRequestMonitor({
+    monitorKey,
     gameId,
     type,
     idgame,
     status: 'ok',
     requestUrl,
-    date: LOTTO_ACTIVO_OFFICIAL_API.date || 'hoy',
+    requestLabel,
+    date: effectiveDate || 'hoy',
     queuedAt,
     sentAt,
     completedAt: Date.now(),
@@ -655,6 +752,7 @@ const executeOfficialApiRequest = async ({
       number: String(item.number),
       name: item.name,
     })),
+    rawPayload: payload,
   })
 
   return normalized.slice(0, 3)
@@ -675,7 +773,30 @@ const fetchOfficialApiResults = async (gameId, animalitos = [], digits = 2) => {
   })
 }
 
-export const testOfficialApiRequestByDefinition = async (definitionKey) => {
+const buildTerminalCandidates = () =>
+  Array.from({ length: 100 }, (_, index) => {
+    const number = index.toString().padStart(2, '0')
+
+    return buildAnimalito({
+      number,
+      name: `Terminal ${number}`,
+      icon: '🎯',
+    })
+  })
+
+const resolveMonitorContestants = (definition) => {
+  if (definition.gameId === GAME_IDS.TRIO_ACTIVO) {
+    return buildTrioAnimalitos()
+  }
+
+  if (definition.idgame === 5) {
+    return buildTerminalCandidates()
+  }
+
+  return []
+}
+
+export const testOfficialApiRequestByDefinition = async (definitionKey, options = {}) => {
   const definition = OFFICIAL_API_MONITOR_DEFINITIONS.find((entry) => entry.key === definitionKey)
 
   if (!definition) {
@@ -683,20 +804,51 @@ export const testOfficialApiRequestByDefinition = async (definitionKey) => {
   }
 
   return executeOfficialApiRequest({
+    monitorKey: definition.key,
     gameId: definition.gameId,
     type: definition.type,
     idgame: definition.idgame,
-    animalitos: [],
-    digits: definition.type === 1 ? 3 : 2,
+    animalitos: resolveMonitorContestants(definition),
+    digits: definition.digits,
+    requestLabel: options.requestLabel || definition.description,
+    dateOverride: options.dateOverride,
   })
 }
 
 export const testAllOfficialApiMonitorDefinitions = async () => {
+  return runOfficialApiMonitorSequence('ALL_IDS_TODAY')
+}
+
+export const runOfficialApiMonitorSequence = async (sequenceKey, options = {}) => {
+  const sequence = OFFICIAL_API_MONITOR_SEQUENCES.find((entry) => entry.key === sequenceKey)
+
+  if (!sequence) {
+    throw new Error(`Secuencia monitor no encontrada: ${sequenceKey}`)
+  }
+
+  const hasConfiguredDate = Boolean(LOTTO_ACTIVO_OFFICIAL_API.date)
+  if (sequence.requiresConfiguredDate && !hasConfiguredDate && !options.dateOverride) {
+    throw new Error('Configura VITE_LOTTO_ACTIVO_API_DATE para ejecutar la secuencia con fecha.')
+  }
+
+  const dateOverride =
+    typeof options.dateOverride === 'string'
+      ? options.dateOverride
+      : sequence.dateMode === 'configured'
+        ? LOTTO_ACTIVO_OFFICIAL_API.date
+        : ''
   const results = []
 
-  for (const definition of OFFICIAL_API_MONITOR_DEFINITIONS) {
+  for (const definitionKey of sequence.definitionKeys) {
+    const definition = OFFICIAL_API_MONITOR_DEFINITIONS.find((entry) => entry.key === definitionKey)
+
+    if (!definition) continue
+
     try {
-      const latestResults = await testOfficialApiRequestByDefinition(definition.key)
+      const latestResults = await testOfficialApiRequestByDefinition(definition.key, {
+        requestLabel: `${options.requestLabelPrefix ? `${options.requestLabelPrefix} | ` : ''}${sequence.label}: ${definition.description}`,
+        dateOverride,
+      })
       results.push({
         key: definition.key,
         status: 'ok',

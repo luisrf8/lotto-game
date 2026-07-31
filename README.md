@@ -68,6 +68,13 @@ Variables actuales:
 3. Valida carga de payload por juego.
 4. Verifica build antes de publicar.
 
+## API oficial Lotto Activo
+- En desarrollo y despliegues web, configura VITE_LOTTO_ACTIVO_API_URL como /lotto-api/api.php para pasar por el proxy del mismo origen y evitar errores CORS en fetch.
+- Vite reenvia /lotto-api/* hacia https://lottoactivo.com/* en local.
+- Vercel reescribe /lotto-api/* hacia https://lottoactivo.com/* en produccion.
+- Si VITE_LOTTO_ACTIVO_API_DATE queda vacia, el monitor usa la fecha de hoy por defecto.
+- El modal del monitor permite ejecutar pruebas por hoy, fecha seleccionada y combinacion hoy + fecha.
+
 ## Despliegue en Vercel
 - Asegura variables VITE_ en Project Settings.
 - Ejecuta build de verificacion local.

@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'https://lottoactivo.com',
         changeOrigin: true,
         secure: true,
+        rewrite: (path) => path.replace(/^\/lotto-api/, ''),
       },
     },
   },
