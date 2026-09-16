@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/lotto-api/:path*",
+      "destination": "https://lottoactivo.com/:path*"
+    }
+  ]
+}
