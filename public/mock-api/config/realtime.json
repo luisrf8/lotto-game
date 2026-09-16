@@ -1,28 +1,7 @@
 {
   "winnerIntervalMs": 90000,
   "adThresholdMs": 60000,
-  "ads": [
-    {
-      "id": "promo-1",
-      "title": "Sorteo Internacional",
-      "image": "/mock-api/ads/sorteointernacional.jpg"
-    },
-    {
-      "id": "promo-2",
-      "title": "Ganar Siempre Sera Divertido",
-      "image": "/mock-api/ads/ganarsiempreseradivertido.jpg"
-    },
-    {
-      "id": "promo-3",
-      "title": "Flyer Ruleta Animales y Grupos",
-      "image": "/mock-api/ads/flyerruleta.jpg"
-    },
-    {
-      "id": "promo-4",
-      "title": "Aviso Gana Con Triple y Terminal",
-      "image": "/mock-api/ads/aviso.jpg"
-    }
-  ],
+  "ads": [],
   "winnerVideosByGame": {
     "LOTTO_ACTIVO": {
       "0": "https://drive.google.com/uc?export=download&id=1pyvkd7o-nK8y4x_bxGQjQTh-lHP1qI-s",

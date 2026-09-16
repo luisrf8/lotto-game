@@ -550,7 +550,7 @@ export const VideoPlayer = ({
             </div>
 
             <div className="space-y-3 overflow-auto px-2 py-3">
-              {isLoadingResults ? (
+              {isLoadingResults || winnerFeed.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#c5d0de] bg-[#f7f9fc] px-3 py-6 text-center">
                   <span
                     className="h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
@@ -559,11 +559,6 @@ export const VideoPlayer = ({
                   <p className="font-heading text-xs uppercase tracking-[0.12em] text-[#3e526a]">
                     Cargando resultados...
                   </p>
-                </div>
-              ) : winnerFeed.length === 0 ? (
-                <div className="rounded-md border border-dashed border-[#c5d0de] bg-[#f7f9fc] px-3 py-4 text-center">
-                  <p className="font-heading text-sm uppercase text-[#61748d]">Sin resultados</p>
-                  <p className="mt-1 text-xs text-[#7d8798]">No han salido ganadores hoy todavía.</p>
                 </div>
               ) : (
                 winnerFeed.map((item, index) => {

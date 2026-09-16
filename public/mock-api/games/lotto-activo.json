@@ -3,48 +3,158 @@
   "name": "Lotto Activo",
   "streamLabel": "Canal Principal",
   "animalitos": [
-    { "number": 0, "name": "Delfin" },
-    { "number": "00", "name": "Ballena" },
-    { "number": 1, "name": "Carnero" },
-    { "number": 2, "name": "Toro" },
-    { "number": 3, "name": "Ciempies" },
-    { "number": 4, "name": "Alacran" },
-    { "number": 5, "name": "Leon" },
-    { "number": 6, "name": "Rana" },
-    { "number": 7, "name": "Perico" },
-    { "number": 8, "name": "Raton" },
-    { "number": 9, "name": "Aguila" },
-    { "number": 10, "name": "Tigre" },
-    { "number": 11, "name": "Gato" },
-    { "number": 12, "name": "Caballo" },
-    { "number": 13, "name": "Mono" },
-    { "number": 14, "name": "Paloma" },
-    { "number": 15, "name": "Zorro" },
-    { "number": 16, "name": "Oso" },
-    { "number": 17, "name": "Pavo" },
-    { "number": 18, "name": "Burro" },
-    { "number": 19, "name": "Chivo" },
-    { "number": 20, "name": "Cochino" },
-    { "number": 21, "name": "Gallo" },
-    { "number": 22, "name": "Camello" },
-    { "number": 23, "name": "Cebra" },
-    { "number": 24, "name": "Iguana" },
-    { "number": 25, "name": "Gallina" },
-    { "number": 26, "name": "Vaca" },
-    { "number": 27, "name": "Perro" },
-    { "number": 28, "name": "Zamuro" },
-    { "number": 29, "name": "Elefante" },
-    { "number": 30, "name": "Caiman" },
-    { "number": 31, "name": "Lapa" },
-    { "number": 32, "name": "Ardilla" },
-    { "number": 33, "name": "Pescado" },
-    { "number": 34, "name": "Venado" },
-    { "number": 35, "name": "Jirafa" },
-    { "number": 36, "name": "Culebra" }
+    {
+      "number": 0,
+      "name": "Delfin"
+    },
+    {
+      "number": "00",
+      "name": "Ballena"
+    },
+    {
+      "number": 1,
+      "name": "Carnero"
+    },
+    {
+      "number": 2,
+      "name": "Toro"
+    },
+    {
+      "number": 3,
+      "name": "Ciempies"
+    },
+    {
+      "number": 4,
+      "name": "Alacran"
+    },
+    {
+      "number": 5,
+      "name": "Leon"
+    },
+    {
+      "number": 6,
+      "name": "Rana"
+    },
+    {
+      "number": 7,
+      "name": "Perico"
+    },
+    {
+      "number": 8,
+      "name": "Raton"
+    },
+    {
+      "number": 9,
+      "name": "Aguila"
+    },
+    {
+      "number": 10,
+      "name": "Tigre"
+    },
+    {
+      "number": 11,
+      "name": "Gato"
+    },
+    {
+      "number": 12,
+      "name": "Caballo"
+    },
+    {
+      "number": 13,
+      "name": "Mono"
+    },
+    {
+      "number": 14,
+      "name": "Paloma"
+    },
+    {
+      "number": 15,
+      "name": "Zorro"
+    },
+    {
+      "number": 16,
+      "name": "Oso"
+    },
+    {
+      "number": 17,
+      "name": "Pavo"
+    },
+    {
+      "number": 18,
+      "name": "Burro"
+    },
+    {
+      "number": 19,
+      "name": "Chivo"
+    },
+    {
+      "number": 20,
+      "name": "Cochino"
+    },
+    {
+      "number": 21,
+      "name": "Gallo"
+    },
+    {
+      "number": 22,
+      "name": "Camello"
+    },
+    {
+      "number": 23,
+      "name": "Cebra"
+    },
+    {
+      "number": 24,
+      "name": "Iguana"
+    },
+    {
+      "number": 25,
+      "name": "Gallina"
+    },
+    {
+      "number": 26,
+      "name": "Vaca"
+    },
+    {
+      "number": 27,
+      "name": "Perro"
+    },
+    {
+      "number": 28,
+      "name": "Zamuro"
+    },
+    {
+      "number": 29,
+      "name": "Elefante"
+    },
+    {
+      "number": 30,
+      "name": "Caiman"
+    },
+    {
+      "number": 31,
+      "name": "Lapa"
+    },
+    {
+      "number": 32,
+      "name": "Ardilla"
+    },
+    {
+      "number": 33,
+      "name": "Pescado"
+    },
+    {
+      "number": 34,
+      "name": "Venado"
+    },
+    {
+      "number": 35,
+      "name": "Jirafa"
+    },
+    {
+      "number": 36,
+      "name": "Culebra"
+    }
   ],
-  "lastResults": [
-    { "number": 2, "name": "Toro" },
-    { "number": 7, "name": "Perico" },
-    { "number": 10, "name": "Tigre" }
-  ]
+  "lastResults": []
 }
