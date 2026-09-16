@@ -578,21 +578,70 @@ const normalizeOfficialResults = ({ entries, animalitos, digits = 2 }) => {
       'Description',
     ])
 
-    normalized.push(
-      matchedAnimal || {
-        number: normalizedNumber,
-        name: entryName || `Resultado ${String(normalizedNumber).padStart(digits, '0')}`,
-        icon: digits >= 3 ? '🎲' : '🐾',
-      },
-    )
+    const horarioValue = pickOfficialEntryValue(entry, [
+      'horario',
+      'Horario',
+      'time',
+      'Time',
+      'hora',
+      'Hora',
+      'drawnAt',
+      'DrawnAt',
+      'hour',
+      'Hour',
+    ])
+
+    const fechaValue = pickOfficialEntryValue(entry, [
+      'fecha',
+      'Fecha',
+      'date',
+      'Date',
+    ])
+
+    const animalObj = matchedAnimal
+      ? { ...matchedAnimal }
+      : {
+          number: normalizedNumber,
+          name: entryName || `Resultado ${String(normalizedNumber).padStart(digits, '0')}`,
+          icon: digits >= 3 ? '🎲' : '🐾',
+        }
+
+    if (entryName) {
+      animalObj.name = entryName
+    }
+
+    if (horarioValue) {
+      animalObj.horario = String(horarioValue).trim()
+    }
+
+    if (fechaValue) {
+      animalObj.fecha = String(fechaValue).trim()
+    }
+
+    if (animalObj.horario && animalObj.fecha) {
+      animalObj.drawnAt = `${animalObj.fecha}T${animalObj.horario}`
+    } else if (animalObj.horario) {
+      const todayStr = new Date().toISOString().split('T')[0]
+      animalObj.drawnAt = `${todayStr}T${animalObj.horario}`
+    }
+
+    normalized.push(animalObj)
   })
 
   const seen = new Set()
-  return normalized.filter((item) => {
-    const key = String(item.number)
+  const filtered = normalized.filter((item) => {
+    const key = `${String(item.number)}-${item.horario || item.drawnAt || ''}`
     if (seen.has(key)) return false
     seen.add(key)
     return true
+  })
+
+  return filtered.sort((a, b) => {
+    const timeA = a.drawnAt || a.horario || ''
+    const timeB = b.drawnAt || b.horario || ''
+    if (timeA < timeB) return 1
+    if (timeA > timeB) return -1
+    return 0
   })
 }
 
@@ -755,7 +804,7 @@ const executeOfficialApiRequest = async ({
     rawPayload: payload,
   })
 
-  return normalized.slice(0, 3)
+  return normalized
 }
 
 const fetchOfficialApiResults = async (gameId, animalitos = [], digits = 2) => {

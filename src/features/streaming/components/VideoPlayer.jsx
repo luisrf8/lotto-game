@@ -197,6 +197,7 @@ export const VideoPlayer = ({
   game,
   latestResult,
   resultsByGame,
+  loadingByGame = {},
   syncMeta,
   winnerEvent,
   games = [],
@@ -235,35 +236,55 @@ export const VideoPlayer = ({
   }
   const isTrioActivo = selectedGame?.id === 'TRIO_ACTIVO'
   const countdownNumberColor = heroPalette.accent || heroPalette.primary
+  const isLoadingResults = Boolean(loadingByGame[selectedGame?.id])
 
   const winnerFeed = useMemo(() => {
-    const now = syncMeta.lastUpdate instanceof Date ? syncMeta.lastUpdate : new Date()
     const gameResults = resultsByGame?.[selectedGame?.id] || []
-    const resultFeed = gameResults
-      .slice(0, 5)
-      .map((entry, index) => ({
-        ...entry.animal,
-        time: entry.drawnAt
-          ? drawTimeFormat.format(new Date(entry.drawnAt))
-          : buildFallbackTime(now, index),
-      }))
 
-    if (resultFeed.length >= 5) {
-      return resultFeed
-    }
+    const sortedResults = [...gameResults].sort((a, b) => {
+      const animalA = a.animal || a
+      const animalB = b.animal || b
+      const timeA = a.drawnAt || animalA.drawnAt || animalA.horario || a.horario || ''
+      const timeB = b.drawnAt || animalB.drawnAt || animalB.horario || b.horario || ''
 
-    const fallbackAnimals = selectedGame?.animalitos || animalitos
-    for (const candidate of fallbackAnimals) {
-      if (resultFeed.some((item) => item.number === candidate.number)) continue
-      resultFeed.push({
-        ...candidate,
-        time: buildFallbackTime(now, resultFeed.length),
-      })
-      if (resultFeed.length === 5) break
-    }
+      if (timeA && timeB) {
+        if (timeA < timeB) return 1
+        if (timeA > timeB) return -1
+      }
+      return 0
+    })
 
-    return resultFeed
-  }, [animalitos, resultsByGame, selectedGame, syncMeta.lastUpdate])
+    return sortedResults.map((entry) => {
+      const animal = entry.animal || entry
+      const horarioStr = animal.horario || entry.horario
+      const drawnAtStr = entry.drawnAt || animal.drawnAt
+
+      let formattedTime = ''
+      if (horarioStr) {
+        const match = String(horarioStr).trim().match(/^(\d{1,2}):(\d{2})/)
+        if (match) {
+          formattedTime = `${match[1].padStart(2, '0')}:${match[2]}`
+        } else {
+          formattedTime = String(horarioStr).trim()
+        }
+      } else if (drawnAtStr) {
+        const timeMatch = String(drawnAtStr).match(/(?:T|\s|^)(\d{1,2}):(\d{2})/)
+        if (timeMatch) {
+          formattedTime = `${timeMatch[1].padStart(2, '0')}:${timeMatch[2]}`
+        } else {
+          const d = new Date(drawnAtStr)
+          if (!Number.isNaN(d.getTime())) {
+            formattedTime = drawTimeFormat.format(d)
+          }
+        }
+      }
+
+      return {
+        ...animal,
+        time: formattedTime || '--:--',
+      }
+    })
+  }, [resultsByGame, selectedGame])
   const gamePanoImage = selectedGame?.assets?.pano || PLAY_CLOTH_IMAGE
 
   const handleSelectGame = (gameId) => {
@@ -529,7 +550,23 @@ export const VideoPlayer = ({
             </div>
 
             <div className="space-y-3 overflow-auto px-2 py-3">
-              {winnerFeed.map((item, index) => {
+              {isLoadingResults ? (
+                <div className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#c5d0de] bg-[#f7f9fc] px-3 py-6 text-center">
+                  <span
+                    className="h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
+                    style={{ borderColor: heroPalette.primary, borderTopColor: 'transparent' }}
+                  />
+                  <p className="font-heading text-xs uppercase tracking-[0.12em] text-[#3e526a]">
+                    Cargando resultados...
+                  </p>
+                </div>
+              ) : winnerFeed.length === 0 ? (
+                <div className="rounded-md border border-dashed border-[#c5d0de] bg-[#f7f9fc] px-3 py-4 text-center">
+                  <p className="font-heading text-sm uppercase text-[#61748d]">Sin resultados</p>
+                  <p className="mt-1 text-xs text-[#7d8798]">No han salido ganadores hoy todavía.</p>
+                </div>
+              ) : (
+                winnerFeed.map((item, index) => {
                 const winnerImageSources = resolveWinnerAnimalImageSources(selectedGame, item.number, item.name)
                 const winnerImageSource = winnerImageSources[0]
                 const winnerNumberLabel = String(item.number).padStart(
@@ -600,7 +637,7 @@ export const VideoPlayer = ({
                   </div>
                 </button>
                 )
-              })}
+              }))}
             </div>
 
             <div className="mt-auto border-t border-[#d8dce3] px-3 py-4">

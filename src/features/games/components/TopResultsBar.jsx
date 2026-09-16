@@ -6,6 +6,18 @@ const timeFormat = new Intl.DateTimeFormat('es-VE', {
   second: '2-digit',
 })
 
+const formatEntryTime = (entry) => {
+  const horario = entry?.animal?.horario || entry?.horario
+  if (horario) return horario
+  if (entry?.drawnAt) {
+    const timeMatch = String(entry.drawnAt).match(/(?:T|\s|^)(\d{1,2}):(\d{2})(?::(\d{2}))?/)
+    if (timeMatch) return timeMatch[0].replace(/^[T\s]/, '')
+    const d = new Date(entry.drawnAt)
+    if (!Number.isNaN(d.getTime())) return timeFormat.format(d)
+  }
+  return '--:--:--'
+}
+
 export const TopResultsBar = ({ games, currentGame, resultsByGame, lastUpdate }) => {
   const gameForResults =
     currentGame === SIMULTANEOUS
@@ -44,8 +56,7 @@ export const TopResultsBar = ({ games, currentGame, resultsByGame, lastUpdate })
                 </div>
               </div>
               <p className="mt-2 text-xs text-lotto-muted">
-                Hora sorteo:{' '}
-                {latest?.drawnAt ? timeFormat.format(new Date(latest.drawnAt)) : '--:--:--'}
+                Hora sorteo: {formatEntryTime(latest)}
               </p>
             </div>
 

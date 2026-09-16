@@ -4,10 +4,19 @@ import {
   fetchRealtimeConfig,
 } from '../services/realtimeConfig'
 
-const toResultEntry = (animal, drawnAt = new Date().toISOString()) => ({
-  animal,
-  drawnAt,
-})
+const toResultEntry = (animal, fallbackDrawnAt) => {
+  const resolvedDrawnAt =
+    animal?.drawnAt ||
+    (animal?.horario && animal?.fecha ? `${animal.fecha}T${animal.horario}` : null) ||
+    animal?.horario ||
+    fallbackDrawnAt ||
+    new Date().toISOString()
+
+  return {
+    animal,
+    drawnAt: resolvedDrawnAt,
+  }
+}
 
 export const useGameSync = (games, gameDataById, pollingMeta) => {
   const [resultsByGame, setResultsByGame] = useState({})
@@ -39,12 +48,9 @@ export const useGameSync = (games, gameDataById, pollingMeta) => {
         const initialResults = gameDataById[game.id]?.lastResults
 
         if (initialResults?.length) {
-          next[game.id] = initialResults.slice(0, 3).map((animal, index) =>
-            toResultEntry(
-              animal,
-              new Date(Date.now() - (index + 1) * 60000).toISOString(),
-            ),
-          )
+          next[game.id] = initialResults.map((animal) => toResultEntry(animal))
+        } else if (gameDataById[game.id]) {
+          next[game.id] = []
         } else if (!next[game.id]) {
           next[game.id] = []
         }
